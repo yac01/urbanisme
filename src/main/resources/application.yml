@@ -1,0 +1,10 @@
+server:
+  port: 8888
+app:
+  clientId: someClient-id
+  clinetSecret: someClient-secret
+  accessTokenValidityInSeconds: 20000
+  refreshTokenValiditySeconds: 20000
+  runningOn: http://localhost:8888;
+  unsecuredPath:
+    - '/jwt/*'
