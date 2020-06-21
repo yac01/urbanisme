@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: resource-server
+  data:
+    mongodb:
+      uri: mongodb+srv://urbanisme:urbanisme@cluster0-hrxdl.mongodb.net/urbanisme?retryWrites=true&w=majority
+      database: urbanisme
+server:
+  port: 8889
+
+app:
+  clientId: someClient-id
+  clientSecret: someClient-secret
+  accessTokenValidityInSeconds: 20000
+  refreshTokenValiditySeconds: 20000
+  runningOn: http://localhost:8888;
