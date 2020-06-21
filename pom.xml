@@ -20,6 +20,7 @@
         <spring-jwt.version>1.1.0.RELEASE</spring-jwt.version>
         <commons-io.version>2.6</commons-io.version>
         <java-jwt.version>3.8.3</java-jwt.version>
+        <snakeyaml.version>1.23</snakeyaml.version>
 	</properties>
 
 	<dependencies>
@@ -57,6 +58,13 @@
             <artifactId>java-jwt</artifactId>
             <version>${java-jwt.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${snakeyaml.version}</version>
+        </dependency>
+
 
         <dependency>
 			<groupId>org.projectlombok</groupId>

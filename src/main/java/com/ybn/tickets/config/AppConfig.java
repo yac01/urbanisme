@@ -3,12 +3,14 @@ package com.ybn.tickets.config;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
 @Data
+@Component
 @ConfigurationProperties("app")
 public class AppConfig {
     private String clientId;
