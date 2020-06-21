@@ -10,4 +10,4 @@ server:
 
 app:
   unsecuredPath:
-    - '/urban/user/create'
+    - '/user/create'
