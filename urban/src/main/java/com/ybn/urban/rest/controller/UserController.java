@@ -1,13 +1,16 @@
 package com.ybn.urban.rest.controller;
 
+import com.ybn.common.collection.TicketUser;
 import com.ybn.common.dto.UserDto;
+import com.ybn.urban.rest.technical.RestPage;
 import com.ybn.urban.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/user")
@@ -19,5 +22,11 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody UserDto body) {
         return ResponseEntity.ok(this.userService.create(body));
+    }
+
+    @GetMapping("/list")
+    public RestPage<TicketUser> list(@RequestParam("limit") int limit, @RequestParam("offset") int offset) {
+        RestPage<TicketUser> rp = this.userService.getAllUsers(limit, offset);
+        return rp;
     }
 }

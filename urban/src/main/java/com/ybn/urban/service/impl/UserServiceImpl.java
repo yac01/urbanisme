@@ -4,11 +4,17 @@ import com.ybn.common.collection.TicketUser;
 import com.ybn.common.dto.UserDto;
 import com.ybn.common.repository.UserRepository;
 import com.ybn.urban.rest.exception.ExceptionKeyCode;
+import com.ybn.urban.rest.technical.RestPage;
 import com.ybn.urban.service.IUserService;
 import com.ybn.urban.validator.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
 
 @Component
 public class UserServiceImpl implements IUserService {
@@ -28,6 +34,12 @@ public class UserServiceImpl implements IUserService {
         user.setActiveAccount(true);
         this.userRepository.save(user);
         return "utilisateur sauvegardé implémenter la redirection";
+    }
+
+    @Override
+    public RestPage<TicketUser> getAllUsers(int limit, int offset) {
+        Page<TicketUser> page = this.userRepository.findAll(PageRequest.of(offset * limit, (offset * limit) + limit));
+        return RestPage.from(page);
     }
 
     private void validateMandatoryFields(UserDto udto) {
