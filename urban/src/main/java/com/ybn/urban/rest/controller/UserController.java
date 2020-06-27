@@ -21,8 +21,6 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
-    @Autowired
-
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody UserDto body) {
@@ -34,8 +32,8 @@ public class UserController {
         RestPage<TicketUser> rp = this.userService.getAllUsers(limit, offset);
         return rp;
     }
-    @PutMapping("/role/{name}")
-    public void updateRole(@RequestParam("mode") String mode) {
-
+    @PutMapping("/role/{name}/{username}/{mode}")
+    public void updateRole(@PathVariable("mode") String mode, @PathVariable("name") String name, @PathVariable("username") String username) {
+        this.userService.updateRole(mode, name, username);
     }
 }

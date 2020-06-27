@@ -6,6 +6,7 @@ import com.ybn.common.dto.UserDto;
 import com.ybn.common.repository.AuthorityRepository;
 import com.ybn.common.repository.UserRepository;
 import com.ybn.urban.rest.exception.ExceptionKeyCode;
+import com.ybn.urban.rest.exception.TicketException;
 import com.ybn.urban.rest.technical.RestPage;
 import com.ybn.urban.service.IUserService;
 import com.ybn.urban.validator.Validator;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -48,10 +50,25 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void updateRole(String mode, String roleName) {
-        Optional<Authority> op = this.authorityRepository.findByRole(roleName);
-        if (!op.isPresent()) {
-            
+    public void updateRole(String mode, String roleName, String username) {
+        Optional<Authority> opr = this.authorityRepository.findByRole(roleName);
+        Optional<TicketUser> opu = this.userRepository.findByUsername(username);
+        if (!opr.isPresent() || !opu.isPresent()) {
+            throw new TicketException(ExceptionKeyCode.E_G_0001);
+        }
+        var user = opu.get();
+        if (user.getAuthorities() == null) {
+            user.setAuthorities(new ArrayList<>());
+        }
+        this.handleRoleUpdate(opr.get(), user, mode);
+        this.userRepository.save(user);
+    }
+
+    private void handleRoleUpdate(Authority authority, TicketUser user, String mode) {
+        if ("ADD".equals(mode)) {
+            user.getAuthorities().add(authority);
+        } else {
+            user.getAuthorities().remove(authority);
         }
     }
 
