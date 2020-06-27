@@ -26,6 +26,8 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     private AuthenticationManager authenticationManager;
     @Autowired
     private TokenEnhancer enhancer;
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     @Bean
     public JwtAccessTokenConverter tokenConverter() {
@@ -53,7 +55,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     }
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        String encryptedSecret = new BCryptPasswordEncoder().encode(this.config.getClientSecret());
+        String encryptedSecret = this.encoder.encode(this.config.getClientSecret());
         clients.inMemory().withClient(this.config.getClientId()).secret(encryptedSecret).scopes("read", "write")
                 .authorizedGrantTypes("password", "refresh_token").accessTokenValiditySeconds(this.config.getAccessTokenValidityInSeconds())
                 .refreshTokenValiditySeconds(this.config.getAccessTokenValidityInSeconds());

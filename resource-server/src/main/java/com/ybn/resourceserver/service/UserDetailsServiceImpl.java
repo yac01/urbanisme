@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,7 +31,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public static class CustomUser extends User {
         public CustomUser(TicketUser u) {
-            super(u.getUsername(), u.getPassword(), u.getAuthorities().stream().map(x -> new GrantedAuhtorityWrapper(x)).collect(Collectors.toList()));
+            super(u.getUsername(), u.getPassword(), extract(u.getAuthorities()));
+        }
+
+        private static Collection<GrantedAuhtorityWrapper> extract(Collection<Authority> authories) {
+            if (authories != null && !authories.isEmpty()) {
+               return authories.stream().map(x -> new GrantedAuhtorityWrapper(x)).collect(Collectors.toList());
+            }
+            return Collections.emptyList();
         }
     }
 

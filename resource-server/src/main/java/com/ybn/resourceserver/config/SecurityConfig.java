@@ -24,15 +24,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AppConfig config;
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     @Override
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(this.detailsService).passwordEncoder(encoder());
+        auth.userDetailsService(this.detailsService).passwordEncoder(encoder);
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {

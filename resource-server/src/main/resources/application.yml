@@ -13,4 +13,4 @@ app:
   clientSecret: someClient-secret
   accessTokenValidityInSeconds: 20000
   refreshTokenValiditySeconds: 20000
-  runningOn: http://localhost:8888;
+  runningOn: http://localhost:8889
