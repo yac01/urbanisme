@@ -6,10 +6,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document("authority")
-public class Authority {
+@Document
+public class Group {
     @Id
     private ObjectId id;
-    private String role;
-
+    private String name;
 }

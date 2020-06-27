@@ -1,7 +1,9 @@
 package com.ybn.urban.service.impl;
 
+import com.ybn.common.collection.Authority;
 import com.ybn.common.collection.TicketUser;
 import com.ybn.common.dto.UserDto;
+import com.ybn.common.repository.AuthorityRepository;
 import com.ybn.common.repository.UserRepository;
 import com.ybn.urban.rest.exception.ExceptionKeyCode;
 import com.ybn.urban.rest.technical.RestPage;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Component
 public class UserServiceImpl implements IUserService {
@@ -22,6 +25,8 @@ public class UserServiceImpl implements IUserService {
     private UserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder encoder;
+    @Autowired
+    private AuthorityRepository authorityRepository;
 
     @Override
     public String create(UserDto udto) {
@@ -40,6 +45,14 @@ public class UserServiceImpl implements IUserService {
     public RestPage<TicketUser> getAllUsers(int limit, int offset) {
         Page<TicketUser> page = this.userRepository.findAll(PageRequest.of(offset * limit, (offset * limit) + limit));
         return RestPage.from(page);
+    }
+
+    @Override
+    public void updateRole(String mode, String roleName) {
+        Optional<Authority> op = this.authorityRepository.findByRole(roleName);
+        if (!op.isPresent()) {
+            
+        }
     }
 
     private void validateMandatoryFields(UserDto udto) {
