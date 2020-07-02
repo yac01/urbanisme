@@ -14,3 +14,7 @@ entries:
   message: 'Value already exists'
   description: "Value of field '%1s' already exists"
   status: 400
+- key: 0004
+  message: 'A group with this name already exists'
+  description: "no description"
+  status: 400
