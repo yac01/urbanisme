@@ -43,6 +43,11 @@ public class GroupServiceImpl implements IGroupService {
     }
 
     @Override
+    public Collection<Group> all() {
+        return this.groupRepository.findAll();
+    }
+
+    @Override
     public void delete(String id) {
         Optional<Group> op = this.groupRepository.findByName(id);
         if (op.isPresent()) {

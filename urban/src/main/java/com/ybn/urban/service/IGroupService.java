@@ -12,5 +12,7 @@ public interface IGroupService {
 
     RestPage<Group> findAll(int limit, int offset);
 
+    Collection<Group> all();
+
     void delete(String name);
 }

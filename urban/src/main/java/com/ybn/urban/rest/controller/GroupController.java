@@ -20,8 +20,13 @@ public class GroupController {
     }
 
     @GetMapping("/list")
-    public RestPage<Group> findAll(@RequestParam("limit") int limit, @RequestParam("offset") int offset) {
+    public RestPage<Group> findAllWithPagination(@RequestParam(value = "limit", required = false) int limit, @RequestParam(value = "offset", required = false) int offset) {
         return this.service.findAll(limit, offset);
+    }
+
+    @GetMapping("/list/all")
+    public ResponseEntity findAll() {
+        return ResponseEntity.ok(this.service.all());
     }
 
     @PutMapping("/delete")

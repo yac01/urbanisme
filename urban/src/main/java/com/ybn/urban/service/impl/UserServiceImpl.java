@@ -1,10 +1,12 @@
 package com.ybn.urban.service.impl;
 
 import com.ybn.common.collection.Authority;
+import com.ybn.common.collection.Group;
 import com.ybn.common.collection.TicketUser;
 import com.ybn.common.dto.UserDto;
 import com.ybn.common.repository.AuthorityRepository;
 import com.ybn.common.repository.UserRepository;
+import com.ybn.common.repository.custom.GroupRepository;
 import com.ybn.urban.rest.exception.ExceptionKeyCode;
 import com.ybn.urban.rest.exception.TicketException;
 import com.ybn.urban.rest.technical.RestPage;
@@ -29,6 +31,9 @@ public class UserServiceImpl implements IUserService {
     private BCryptPasswordEncoder encoder;
     @Autowired
     private AuthorityRepository authorityRepository;
+    @Autowired
+    private GroupRepository groupRepository;
+
 
     @Override
     public String create(UserDto udto) {
@@ -50,6 +55,10 @@ public class UserServiceImpl implements IUserService {
             if (employeeRole.isPresent()) {
                 this.handleRoleUpdate(employeeRole.get(), user, "ADD");
             }
+        }
+        if (udto.getGroups() != null && udto.getGroups().length > 0) {
+            Collection<Group> groups = this.groupRepository.findByNameIn(udto.getGroups());
+            user.setGroups(groups);
         }
         this.userRepository.save(user);
         return "utilisateur sauvegardé implémenter la redirection";
@@ -76,6 +85,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     private void handleRoleUpdate(Authority authority, TicketUser user, String mode) {
+
         if ("ADD".equals(mode)) {
             if (!user.getAuthorities().stream().anyMatch(a -> a.getRole().equals(authority.getRole())))
               user.getAuthorities().add(authority);

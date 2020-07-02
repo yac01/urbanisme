@@ -9,4 +9,5 @@ public class UserDto {
     private String email;
     private boolean admin = false;
     private boolean employee = false;
+    private String [] groups;
 }
