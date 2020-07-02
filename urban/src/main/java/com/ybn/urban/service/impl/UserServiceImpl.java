@@ -39,10 +39,21 @@ public class UserServiceImpl implements IUserService {
         user.setEmail(udto.getEmail());
         user.setPassword(this.encoder.encode(udto.getPassword()));
         user.setActiveAccount(true);
+        if (udto.isAdmin()) {
+            Optional<Authority> adminRole = this.authorityRepository.findByRole("admin");
+            if (adminRole.isPresent()) {
+                this.handleRoleUpdate(adminRole.get(), user, "ADD");
+            }
+        }
+        if (udto.isEmployee()) {
+            Optional<Authority> employeeRole = this.authorityRepository.findByRole("employee");
+            if (employeeRole.isPresent()) {
+                this.handleRoleUpdate(employeeRole.get(), user, "ADD");
+            }
+        }
         this.userRepository.save(user);
         return "utilisateur sauvegardé implémenter la redirection";
     }
-
     @Override
     public RestPage<TicketUser> getAllUsers(int limit, int offset) {
         Page<TicketUser> page = this.userRepository.findAll(PageRequest.of(offset * limit, (offset * limit) + limit));
@@ -66,9 +77,11 @@ public class UserServiceImpl implements IUserService {
 
     private void handleRoleUpdate(Authority authority, TicketUser user, String mode) {
         if ("ADD".equals(mode)) {
-            user.getAuthorities().add(authority);
+            if (!user.getAuthorities().stream().anyMatch(a -> a.getRole().equals(authority.getRole())))
+              user.getAuthorities().add(authority);
         } else {
-            user.getAuthorities().remove(authority);
+            if (user.getAuthorities().stream().anyMatch(a -> a.getRole().equals(authority.getRole())))
+                user.getAuthorities().remove(authority);
         }
     }
 
