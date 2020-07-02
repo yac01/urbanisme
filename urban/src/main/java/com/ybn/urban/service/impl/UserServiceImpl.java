@@ -65,7 +65,7 @@ public class UserServiceImpl implements IUserService {
     }
     @Override
     public RestPage<TicketUser> getAllUsers(int limit, int offset) {
-        Page<TicketUser> page = this.userRepository.findAll(PageRequest.of(offset * limit, (offset * limit) + limit));
+        Page<TicketUser> page = this.userRepository.findAll(PageRequest.of(offset, limit));
         return RestPage.from(page);
     }
 

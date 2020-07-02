@@ -38,7 +38,7 @@ public class GroupServiceImpl implements IGroupService {
 
     @Override
     public RestPage<Group> findAll(int limit, int offset) {
-        Page<Group> page = this.groupRepository.findAll(PageRequest.of(offset * limit, (offset * limit) + limit));
+        Page<Group> page = this.groupRepository.findAll(PageRequest.of(offset, limit));
         return RestPage.from(page);
     }
 
