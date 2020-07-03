@@ -12,4 +12,6 @@ public interface IUserService {
     RestPage<TicketUser> getAllUsers(int limit, int offset);
 
     void updateRole(String mode, String roleName, String username);
+
+    void deleteByName(String name);
 }

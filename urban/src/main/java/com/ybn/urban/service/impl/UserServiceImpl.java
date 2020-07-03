@@ -84,6 +84,16 @@ public class UserServiceImpl implements IUserService {
         this.userRepository.save(user);
     }
 
+    @Override
+    public void deleteByName(String name) {
+        if (name != null) {
+            Optional<TicketUser> op = this.userRepository.findByUsername(name);
+            if (op.isPresent()) {
+                this.userRepository.delete(op.get());
+            }
+        }
+    }
+
     private void handleRoleUpdate(Authority authority, TicketUser user, String mode) {
 
         if ("ADD".equals(mode)) {

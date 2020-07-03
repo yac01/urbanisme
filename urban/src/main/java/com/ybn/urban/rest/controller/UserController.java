@@ -36,4 +36,9 @@ public class UserController {
     public void updateRole(@PathVariable("mode") String mode, @PathVariable("name") String name, @PathVariable("username") String username) {
         this.userService.updateRole(mode, name, username);
     }
+
+    @PutMapping("/delete/{name}")
+    public void deleteByName(@PathVariable("name") String name) {
+        this.userService.deleteByName(name);
+    }
 }
