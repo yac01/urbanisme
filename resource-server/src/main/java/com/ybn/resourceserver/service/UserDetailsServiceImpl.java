@@ -3,6 +3,7 @@ package com.ybn.resourceserver.service;
 import com.ybn.common.collection.Authority;
 import com.ybn.common.collection.TicketUser;
 import com.ybn.common.repository.UserRepository;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -30,8 +31,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public static class CustomUser extends User {
+        @Getter
+        private Collection<String> groups;
         public CustomUser(TicketUser u) {
             super(u.getUsername(), u.getPassword(), extract(u.getAuthorities()));
+            if (u.getGroups() != null && u.getGroups().size() > 0) {
+                this.groups = u.getGroups().stream().map(x -> x.getName()).collect(Collectors.toList());
+            }
         }
 
         private static Collection<GrantedAuhtorityWrapper> extract(Collection<Authority> authories) {

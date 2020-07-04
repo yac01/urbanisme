@@ -25,9 +25,9 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
     @Autowired
-    private TokenEnhancer enhancer;
-    @Autowired
     private BCryptPasswordEncoder encoder;
+    @Autowired
+    private TokenEnhancer tokenEnhancer;
 
     @Bean
     public JwtAccessTokenConverter tokenConverter() {
@@ -44,7 +44,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-        enhancerChain.setTokenEnhancers(Arrays.asList(this.enhancer, tokenConverter()));
+        enhancerChain.setTokenEnhancers(Arrays.asList(this.tokenEnhancer, tokenConverter()));
 
         endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore())
                 .tokenEnhancer(enhancerChain);
