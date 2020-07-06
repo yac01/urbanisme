@@ -18,3 +18,11 @@ entries:
   message: 'A group with this name already exists'
   description: "no description"
   status: 400
+- key: 0005
+  message: 'Issue without any group'
+  description: "Consider defining a group"
+  status: 400
+- key: 0006
+  message: 'Issue without valid author'
+  description: "Cannot create issue without author"
+  status: 400
