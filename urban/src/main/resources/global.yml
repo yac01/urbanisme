@@ -26,3 +26,7 @@ entries:
   message: 'Issue without valid author'
   description: "Cannot create issue without author"
   status: 400
+- key: 0006
+  message: 'Issue without valid author'
+  description: "Cannot load issue without author"
+  status: 400

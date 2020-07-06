@@ -10,4 +10,5 @@ public class IssueDto {
     private String authorName;
     private String title;
     private String[] groups;
+    private String email;
 }

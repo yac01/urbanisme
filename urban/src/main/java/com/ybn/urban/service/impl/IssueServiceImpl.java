@@ -9,8 +9,11 @@ import com.ybn.common.repository.UserRepository;
 import com.ybn.common.repository.custom.GroupRepository;
 import com.ybn.urban.rest.exception.ExceptionKeyCode;
 import com.ybn.urban.rest.exception.TicketException;
+import com.ybn.urban.rest.technical.RestPage;
 import com.ybn.urban.service.IIssueService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -46,5 +49,17 @@ public class IssueServiceImpl implements IIssueService {
         issue.setTitle(issueDto.getTitle());
         issue.setDescription(issueDto.getContent());
         return this.issueRepository.save(issue);
+    }
+
+    @Override
+    public RestPage<Issue> findUsersIssues(IssueDto dto, Pageable pageable) {
+        Collection<Group> groups = this.groupRepository.findByNameIn(dto.getGroups());
+
+        Optional<TicketUser> ouser = this.userRepository.findByEmail(dto.getAuthorName());
+        if (!ouser.isPresent()) {
+            throw new TicketException(ExceptionKeyCode.E_F_0006);
+        }
+        Page<Issue> page = this.issueRepository.findByAuthorOrAuthorGroupsIn(ouser.get(), groups, pageable);
+        return RestPage.from(page);
     }
 }
