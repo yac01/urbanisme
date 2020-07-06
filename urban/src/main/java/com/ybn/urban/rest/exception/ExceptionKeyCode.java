@@ -7,5 +7,7 @@ public abstract class ExceptionKeyCode {
     public static final String E_F_0004 = "0004";
     public static final String E_F_0005 = "0005";
     public static final String E_F_0007 = "0007";
+    public static final String E_F_0006 = "0006";
+
 
 }
