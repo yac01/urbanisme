@@ -22,6 +22,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
             CustomUser cu = (CustomUser) o;
             Map<String, Object> extras = new HashMap<>();
             extras.put("groups", cu.getGroups());
+            extras.put("email", cu.getEmail());
             if (cu.getAuthorities() != null && cu.getAuthorities().size() > 0) {
                 extras.put("authorities", cu.getAuthorities().stream().map(x -> x.getAuthority()).collect(Collectors.toList()));
             }

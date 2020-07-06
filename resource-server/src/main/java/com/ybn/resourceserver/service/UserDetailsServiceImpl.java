@@ -33,11 +33,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public static class CustomUser extends User {
         @Getter
         private Collection<String> groups;
+        @Getter
+        private String email;
         public CustomUser(TicketUser u) {
             super(u.getUsername(), u.getPassword(), extract(u.getAuthorities()));
             if (u.getGroups() != null && u.getGroups().size() > 0) {
                 this.groups = u.getGroups().stream().map(x -> x.getName()).collect(Collectors.toList());
             }
+            this.email = u.getEmail();
         }
 
         private static Collection<GrantedAuhtorityWrapper> extract(Collection<Authority> authories) {

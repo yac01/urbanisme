@@ -32,7 +32,7 @@ public class IssueServiceImpl implements IIssueService {
             throw new TicketException(ExceptionKeyCode.E_F_0005);
         }
 
-        Optional<TicketUser> ouser = this.userRepository.findByUsername(issueDto.getAuthorName());
+        Optional<TicketUser> ouser = this.userRepository.findByEmail(issueDto.getAuthorName());
         if (!ouser.isPresent()) {
             throw new TicketException(ExceptionKeyCode.E_F_0006);
         }

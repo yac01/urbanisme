@@ -18,4 +18,6 @@ public interface UserRepository extends MongoRepository<TicketUser, ObjectId>, U
      * @return user if found or optional empty
      * */
     Optional<TicketUser> findByUsername(String username);
+
+    Optional<TicketUser> findByEmail(String email);
 }
