@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -59,7 +60,14 @@ public class IssueServiceImpl implements IIssueService {
         if (!ouser.isPresent()) {
             throw new TicketException(ExceptionKeyCode.E_F_0006);
         }
-        Page<Issue> page = this.issueRepository.findByAuthorOrAuthorGroupsIn(ouser.get(), groups, pageable);
+        Page<Issue> page = null;
+        TicketUser user = ouser.get();
+        if(user.getAuthorities().stream().anyMatch(x -> x.getRole().equals("admin"))){
+            page = this.issueRepository.findAll(pageable);
+        }else{
+            page = this.issueRepository.findByAuthorOrAuthorGroupsIn(ouser.get(), groups, pageable);
+        }
+
         return RestPage.from(page);
     }
 }
